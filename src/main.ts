@@ -3,9 +3,12 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3000 ,()=>{
-    console.log(`Assalomualaykum loyiha ${process.env.PORT}- portda ishlab turibdi`);
-    
+  
+  const port = process.env.PORT ?? 3000;
+  const host = process.env.HOST ?? '0.0.0.0'; // Docker ichida 0.0.0.0 shart
+
+  await app.listen(port, host, () => {
+    console.log(`Loyiha http://${host}:${port} manzilida muvaffaqiyatli ishga tushdi`);
   });
 }
 void bootstrap();

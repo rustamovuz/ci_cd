@@ -42,4 +42,5 @@ jobs:
               --name my-nest-api \
               --restart unless-stopped \
               -p 4001:3000 \
+              -e HOST=0.0.0.0 \
               ${{ vars.DOCKERHUB_USERNAME }}/my-nest-api:latest
