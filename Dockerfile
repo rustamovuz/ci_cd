@@ -1,13 +1,17 @@
-FROM node:alpine as builder
+# 1-bosqich: Build qilish
+FROM node:20-alpine AS builder
 WORKDIR /app
-ADD package.json package-lock.json ./
+COPY package*.json ./
 RUN npm install
-ADD . .
-RUN npm run build --prod
+COPY . .
+RUN npm run build
 
-FROM node:alpine 
+# 2-bosqich: Production muhiti
+FROM node:20-alpine AS runner
 WORKDIR /app
+COPY package*.json ./
+RUN npm install --only=production
 COPY --from=builder /app/dist ./dist
-ADD package*.json ./
-RUN npm install --omit=dev
-CMD [ "node", "./dist/main.js" ]
+
+EXPOSE 3000
+CMD ["node", "dist/main"]
